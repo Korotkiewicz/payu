@@ -1,6 +1,6 @@
 {
     "name": "korotkiewicz/payu",
-    "description": "Simplify PayU",
+    "description": "Simplify Integration PayU in Laravel",
     "type": "library",
     "require": {
         "openpayu/openpayu": "^2.2",

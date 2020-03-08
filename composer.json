@@ -1,0 +1,29 @@
+{
+    "name": "bolebor/payu",
+    "description": "Simplify PayU",
+    "type": "library",
+    "require": {
+        "openpayu/openpayu": "^2.2",
+        "laravel/framework": "5.8.*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bolebor",
+            "email": "korotm@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+             "Bolebor\\PayU\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Bolebor\\PayU\\BoleborPayUServiceProvider"
+            ]
+        }
+    }
+}

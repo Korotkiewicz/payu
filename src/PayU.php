@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolebor\PayU;
+namespace Korotkiewicz\PayU;
 
 class PayU {
 	public function __construct($productionMode, $merchantId, $signatureKey, $clientId, $clientSecret)

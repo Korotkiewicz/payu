@@ -1,12 +1,12 @@
 <?php
 
-namespace Bolebor\PayU;
+namespace Korotkiewicz\PayU;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 
-class BoleborPayUServiceProvider extends ServiceProvider {
+class PayUServiceProvider extends ServiceProvider {
 
     /**
      * Indicates if loading of the provider is deferred.
@@ -21,7 +21,7 @@ class BoleborPayUServiceProvider extends ServiceProvider {
      * @return void
      */
     public function register(){
-        $this->app->singleton('Bolebor\PayU\BoleborPayUServiceProvider', function($app) {
+        $this->app->singleton('Korotkiewicz\PayU\BoleborPayUServiceProvider', function($app) {
             $productionMode = config('payu.production_mode') ? 'secure' : 'sandbox';
             $merchantId = config('payu.merchant_id');
             $signatureKey = config('payu.signature_key');
@@ -31,7 +31,7 @@ class BoleborPayUServiceProvider extends ServiceProvider {
             return new PayU($productionMode, $merchantId, $signatureKey, $clientId, $clientSecret);
         });
 
-        $this->app->bind('payu', 'Bolebor\PayU');
+        $this->app->bind('payu', 'Korotkiewicz\PayU');
 
         // $this->mergeConfigFrom(
         //     __DIR__ . '/config/payu.php', 'payu'
@@ -63,7 +63,7 @@ class BoleborPayUServiceProvider extends ServiceProvider {
     public function provides(){
         return [
             'payu',
-            'Bolebor\PayU',
+            'Korotkiewicz\PayU',
         ];
     }
 

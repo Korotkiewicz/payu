@@ -1,5 +1,5 @@
 {
-    "name": "bolebor/payu",
+    "name": "Korotkiewicz/payu",
     "description": "Simplify PayU",
     "type": "library",
     "require": {
@@ -9,20 +9,20 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Bolebor",
+            "name": "Korotkiewicz",
             "email": "korotm@gmail.com"
         }
     ],
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-             "Bolebor\\PayU\\": "src"
+             "Korotkiewicz\\PayU\\": "src"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Bolebor\\PayU\\BoleborPayUServiceProvider"
+                "Korotkiewicz\\PayU\\PayUServiceProvider"
             ]
         }
     }

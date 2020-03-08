@@ -1,5 +1,5 @@
 {
-    "name": "Korotkiewicz/payu",
+    "name": "korotkiewicz/payu",
     "description": "Simplify PayU",
     "type": "library",
     "require": {

@@ -14,9 +14,9 @@ composer require korotkiewicz/payu
 Add to your config/app.php
 
 ```php
-	'providers' => [
-        Korotkiewicz\PayU\PayUServiceProvider::class
-    ]
+'providers' => [
+	Korotkiewicz\PayU\PayUServiceProvider::class
+]
 ```
 
 ```bash

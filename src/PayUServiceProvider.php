@@ -21,7 +21,7 @@ class PayUServiceProvider extends ServiceProvider {
      * @return void
      */
     public function register(){
-        $this->app->singleton('Korotkiewicz\PayU\BoleborPayUServiceProvider', function($app) {
+        $this->app->singleton('Korotkiewicz\PayU\PayUServiceProvider', function($app) {
             $productionMode = config('payu.production_mode') ? 'secure' : 'sandbox';
             $merchantId = config('payu.merchant_id');
             $signatureKey = config('payu.signature_key');
@@ -33,26 +33,18 @@ class PayUServiceProvider extends ServiceProvider {
 
         $this->app->bind('payu', 'Korotkiewicz\PayU');
 
-        // $this->mergeConfigFrom(
-        //     __DIR__ . '/config/payu.php', 'payu'
-        // );
+        $this->mergeConfigFrom(
+            __DIR__ . '/config/payu.php', 'payu'
+        );
     }
 
     /**
      * Publish the plugin configuration.
      */
     public function boot(){
-        // $this->publishes([
-        //     __DIR__ . '/config/payu.php' => config_path('payu.php')
-        // ]);
-
-        // $this->publishes([
-        //     __DIR__.'/migrations/' => database_path('migrations')
-        // ], 'migrations');
-
-        // $this->publishes([
-        //     __DIR__.'/models/' => app_path('models')
-        // ], 'migrations');
+        $this->publishes([
+            __DIR__ . '/config/payu.php' => config_path('payu.php')
+        ]);
     }
 
     /**
@@ -62,7 +54,6 @@ class PayUServiceProvider extends ServiceProvider {
      */
     public function provides(){
         return [
-            'payu',
             'Korotkiewicz\PayU',
         ];
     }

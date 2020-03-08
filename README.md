@@ -1,2 +1,2 @@
-# payu
-Simplify PayU
+# Laravel PayU
+Simplify Integration PayU in Laravel

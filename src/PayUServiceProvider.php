@@ -31,8 +31,6 @@ class PayUServiceProvider extends ServiceProvider {
             return new PayU($productionMode, $merchantId, $signatureKey, $clientId, $clientSecret);
         });
 
-        $this->app->bind('payu', 'Korotkiewicz\PayU');
-
         $this->mergeConfigFrom(
             __DIR__ . '/config/payu.php', 'payu'
         );

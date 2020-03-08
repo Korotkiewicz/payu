@@ -54,7 +54,7 @@ class PayU {
 	 * @param  string $currency    [description]
 	 * @return \OpenPayU_Order              [description]
 	 */
-	public function createOrder($desc, $orderID, $totalAmount, $products, $buyer = null, $currency = 'PLN'): \OpenPayU_Order
+	public function createOrder($desc, $orderID, $totalAmount, $products, $buyer = null, $currency = 'PLN'):? \OpenPayU_Order
 	{
 		$order = [];
 		$order['continueUrl'] = $this->continueUrl; //customer will be redirected to this page after successfull payment
@@ -73,7 +73,14 @@ class PayU {
 		    $order['buyer'] = $buyer;
 		}
 
-	    $response = \OpenPayU_Order::create($order);
+		$response = null;
+		try {
+	    	$response = \OpenPayU_Order::create($order);
+		} catch(\Exception $e) {
+			Log::error($e);
+
+			$response = null;
+		}
 
 	    return $response;
 	}

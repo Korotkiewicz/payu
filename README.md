@@ -11,7 +11,16 @@ composer require korotkiewicz/payu
 
 ## Configuration
 
+Add to your config/app.php
+
+```php
+	'providers' => [
+        Korotkiewicz\PayU\PayUServiceProvider::class
+    ]
+```
+
 ```bash
+php artisan config:clear
 php artisan vendor:publish
 ```
 

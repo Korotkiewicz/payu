@@ -23,7 +23,7 @@ class PayU {
 		\OpenPayU_Configuration::setOauthClientSecret($clientSecret);   
 
 		$this->continueUrl = $continueUrl;
-		$this0->notifyUrl = $notifyUrl;
+		$this->notifyUrl = $notifyUrl;
 	}
 
 	public function getNotificationResult():? \OpenPayU_Result
@@ -60,10 +60,10 @@ class PayU {
 		$order['continueUrl'] = $this->continueUrl; //customer will be redirected to this page after successfull payment
 	    $order['notifyUrl'] = $this->notifyUrl;
 	    $order['customerIp'] = $_SERVER['REMOTE_ADDR'];
-	    $order['merchantPosId'] = OpenPayU_Configuration::getMerchantPosId();
+	    $order['merchantPosId'] = \OpenPayU_Configuration::getMerchantPosId();
 	    $order['description'] = $desc;
 	    $order['currencyCode'] = $currency;
-	    $order['totalAmount'] = $amount;
+	    $order['totalAmount'] = $totalAmount;
 	    $order['extOrderId'] = $orderID; //must be unique!
 
 	    $order['products'] = $products;

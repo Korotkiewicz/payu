@@ -66,7 +66,7 @@ class PayUServiceProvider extends ServiceProvider {
      */
     public function provides(){
         return [
-            'Korotkiewicz\PayU',
+            'Korotkiewicz\PayU\PayUServiceProvider',
         ];
     }
 

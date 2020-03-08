@@ -39,8 +39,10 @@ class PayUServiceProvider extends ServiceProvider {
             $signatureKey = config('payu.signature_key');
             $clientId = config('payu.client_id');
             $clientSecret = config('payu.client_secret'); 
+            $continueUrl = config('payu.continue_url'); 
+            $notifyUrl = config('payu.notify_url'); 
            
-            return new PayU($productionMode, $merchantId, $signatureKey, $clientId, $clientSecret);
+            return new PayU($productionMode, $merchantId, $signatureKey, $clientId, $clientSecret, $continueUrl, $notifyUrl);
         });
 
         $this->mergeConfigFrom(

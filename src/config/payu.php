@@ -5,7 +5,7 @@ return [
     /*
     | (Boolean) Determines if Openpay is running in production mode.
     */
-    'production_mode' => env('PAYU_PRODUCTION_MODE'),
+    'production_mode' => env('PAYU_PRODUCTION_MODE', false),
 
     /*
     | Your Merchant ID, found in Openpay Dashboard -- Configuration.
@@ -20,4 +20,8 @@ return [
     'client_id' => env('PAYU_CLIENT_ID'),
 
     'client_secret' => env('PAYU_CLIENT_SECRET'),
+
+    'continue_url' => env('PAYU_CONTINUE_URL'),
+
+    'notify_url' => env('PAYU_NOTIFY_URL'),
 ];

@@ -68,6 +68,14 @@ class PayU {
 
 	    $order['products'] = $products;
 
+	    if ($currency !== 'HUF') {
+	    	$order['totalAmount'] *= 100;
+
+	    	foreach($order['products'] as $i => $product) {
+	    		$order['products'][$i]['unitPrice'] *= 100;
+	    	}
+	    }
+
 	    if (!empty($buyer)) {
 		    //optional section buyer
 		    $order['buyer'] = $buyer;

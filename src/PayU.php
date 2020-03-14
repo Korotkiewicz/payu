@@ -54,7 +54,7 @@ class PayU {
 	 * @param  string $currency    [description]
 	 * @return \OpenPayU_Order              [description]
 	 */
-	public function createOrder($desc, $orderID, $totalAmount, $products, $buyer = null, $currency = 'PLN'):? \OpenPayU_Result
+	public function createOrder($desc, $orderID, $totalAmount, $products, $buyer = null, $currency = 'PLN', $recurring = null, $payMethods = null):? \OpenPayU_Result
 	{
 		$order = [];
 		$order['continueUrl'] = $this->continueUrl; //customer will be redirected to this page after successfull payment
@@ -80,6 +80,15 @@ class PayU {
 		    //optional section buyer
 		    $order['buyer'] = $buyer;
 		}
+
+		if (!is_null($recurring)) {
+			$order['recurring'] = $recurring;
+		}
+
+		if (!is_null($payMethods)) {
+			$order['payMethods'] = $payMethods;
+		}
+
 
 		$response = null;
 		try {

@@ -35,6 +35,7 @@ PAYU_CLIENT_ID=""
 PAYU_CLIENT_SECRET=""
 PAYU_CONTINUE_URL=""
 PAYU_NOTIFY_URL=""
+PAYU_SHOP_NAME=""
 ```
 
 Add you notify url to App\Http\Middleware\VerifyCsrfToken exclude list ($except):

@@ -7,12 +7,13 @@ use Illuminate\Support\Facades\Log;
 class PayU {
 	protected $continueUrl;
 	protected $notifyUrl;
+	protected $shopName;
 
 	const RECURRING_FIRST_PAYMENT = 'FIRST'; //first payment
 	const RECURRING_EVERY_SECOND_PAYMENT = 'STANDARD'; //not first payment
 
 
-	public function __construct($productionMode, $merchantId, $signatureKey, $clientId, $clientSecret, $continueUrl, $notifyUrl)
+	public function __construct($productionMode, $merchantId, $signatureKey, $clientId, $clientSecret, $continueUrl, $notifyUrl, $shopName)
 	{
         //set Production Environment
 		\OpenPayU_Configuration::setEnvironment($productionMode);
@@ -27,6 +28,7 @@ class PayU {
 
 		$this->continueUrl = $continueUrl;
 		$this->notifyUrl = $notifyUrl;
+		$this->shopName = $shopName;
 	}
 
 	public function getNotificationResult():? \OpenPayU_Result
@@ -47,6 +49,17 @@ class PayU {
 		return null;
 	}
 
+	public function getShopName()
+	{
+		return $this->shopName;
+	}
+
+	public function getMerchantPosId()
+	{
+		return \OpenPayU_Configuration::getMerchantPosId();
+	}
+
+
 	/**
 	 * Create new Order
 	 * @param  string $desc        Cart description
@@ -63,7 +76,7 @@ class PayU {
 		$order['continueUrl'] = $this->continueUrl; //customer will be redirected to this page after successfull payment
 	    $order['notifyUrl'] = $this->notifyUrl;
 	    $order['customerIp'] = $_SERVER['REMOTE_ADDR'];
-	    $order['merchantPosId'] = \OpenPayU_Configuration::getMerchantPosId();
+	    $order['merchantPosId'] = self::getMerchantPosId();
 	    $order['description'] = $desc;
 	    $order['currencyCode'] = $currency;
 	    $order['totalAmount'] = $totalAmount;
@@ -107,5 +120,45 @@ class PayU {
 		}
 
 	    return $response;
+	}
+
+	public function createWidgetAttributes($totalAmount, $customerEmail, $currency = 'PLN', $language = 'pl')
+	{
+		return [
+            'src' => 'https://secure.payu.com/front/widget/js/payu-bootstrap.js',
+            'merchant-pos-id' => $this->getMerchantPosId(),
+            'shop-name' => $this->getShopName(),
+            'total-amount' => $totalAmount,
+            'currency-code' => $currency,
+            'customer-language' => $language,
+            'store-card' => 'true',
+            'payu-brand' => 'false',
+            'success-callback' => $this->notifyUrl,
+            'widget-mode' => 'use',
+            'customer-email' => $customerEmail,
+            'sig' => $this->generateSign($totalAmount, $customerEmail, $currency)
+        ];
+	}
+
+
+	/**
+	 * genereate sign for payu widget
+	 * currency-code: PLN
+	 * customer-email: test@test.com
+	 * customer-language: pl
+	 * merchant-pos-id: 145227
+	 * shop-name: TEST
+	 * total-amount: 12345
+	 */
+	protected function generateSign($totalAmount, $customerEmail, $currency = 'PLN')
+	{
+		if ($currency !== 'HUF') {
+			$totalAmount *= 100;
+		}
+
+		$plainText = $currency . $customerEmail . 'pl' . $this->getMerchantPosId() . $this->getShopName() . $totalAmount;
+		$plainText .= \OpenPayU_Configuration::getSignatureKey();
+
+		return hash("sha512", $plainText);
 	}
 }

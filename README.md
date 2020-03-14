@@ -36,3 +36,17 @@ PAYU_CLIENT_SECRET=""
 PAYU_CONTINUE_URL=""
 PAYU_NOTIFY_URL=""
 ```
+
+Add you notify url to App\Http\Middleware\VerifyCsrfToken exclude list ($except):
+
+```php
+/**
+ * The URIs that should be excluded from CSRF verification.
+ *
+ * @var array
+ */
+protected $except = [
+    config('payu.notify_url')
+];
+
+```

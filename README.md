@@ -40,13 +40,11 @@ PAYU_NOTIFY_URL=""
 Add you notify url to App\Http\Middleware\VerifyCsrfToken exclude list ($except):
 
 ```php
-/**
- * The URIs that should be excluded from CSRF verification.
- *
- * @var array
- */
-protected $except = [
-    config('payu.notify_url')
-];
+public function __construct(Application $app, Encrypter $encrypter)
+{
+    $this->except[] = config('payu.notify_url');
+
+    parent::__construct($app, $encrypter);
+}
 
 ```

@@ -8,6 +8,9 @@ class PayU {
 	protected $continueUrl;
 	protected $notifyUrl;
 
+	const RECURRING_FIRST_PAYMENT = 'FIRST'; //first payment
+	const RECURRING_EVERY_SECOND_PAYMENT = 'STANDARD'; //not first payment
+
 
 	public function __construct($productionMode, $merchantId, $signatureKey, $clientId, $clientSecret, $continueUrl, $notifyUrl)
 	{
@@ -83,6 +86,10 @@ class PayU {
 
 		if (!is_null($recurring)) {
 			$order['recurring'] = $recurring;
+
+			if ($recurring == self::RECURRING_EVERY_SECOND_PAYMENT && is_null($payMethods)) {
+				throw new \Exception('Standard recurring payment require setting payMethods.payMethod["type": "CARD_TOKEN", "value": "TOKC_1token_given_on_first_payment"]');
+			}
 		}
 
 		if (!is_null($payMethods)) {

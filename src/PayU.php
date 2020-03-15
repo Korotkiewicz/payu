@@ -124,9 +124,7 @@ class PayU {
 
 	public function createWidgetAttributes($totalAmount, $customerEmail, $currency = 'PLN', $language = 'pl', $buttonSelector = '#pay-button')
 	{
-		return [
-            'src' => 'https://secure.payu.com/front/widget/js/payu-bootstrap.js',
-            'pay-button' => $buttonSelector,
+		$attributes = [
             'merchant-pos-id' => $this->getMerchantPosId(),
             'shop-name' => $this->getShopName(),
             'total-amount' => $totalAmount,
@@ -134,9 +132,15 @@ class PayU {
             'customer-language' => $language,
             'store-card' => 'true',
             'recurring-payment' => 'true',
-            'customer-email' => $customerEmail,
-            'sig' => $this->generateSign($totalAmount, $customerEmail, $currency)
+            'widget-mode' => 'pay',
+            'customer-email' => $customerEmail
         ];
+
+        $attributes['sig'] = $this->generateSign($attributes);
+        $attributes['pay-button'] = $buttonSelector;
+        $attributes['src'] = 'https://secure.payu.com/front/widget/js/payu-bootstrap.js';
+
+        return $attributes;
 	}
 
 
@@ -149,13 +153,11 @@ class PayU {
 	 * shop-name: TEST
 	 * total-amount: 12345
 	 */
-	protected function generateSign($totalAmount, $customerEmail, $currency = 'PLN')
+	protected function generateSign($attributes)
 	{
-		if ($currency !== 'HUF') {
-			$totalAmount *= 100;
-		}
+		ksort($attributes);
 
-		$plainText = $currency . $customerEmail . 'pl' . $this->getMerchantPosId() . $this->getShopName() . $totalAmount;
+		$plainText = implode('', array_values($attributes));
 		$plainText .= \OpenPayU_Configuration::getSignatureKey();
 
 		return hash("sha512", $plainText);

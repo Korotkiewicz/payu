@@ -124,6 +124,10 @@ class PayU {
 
 	public function createWidgetAttributes($totalAmount, $customerEmail, $currency = 'PLN', $language = 'pl', $buttonSelector = '#pay-button')
 	{
+		if ($currency !== 'HUF') {
+			$totalAmount *= 100;
+		}
+
 		$attributes = [
             'merchant-pos-id' => $this->getMerchantPosId(),
             'shop-name' => $this->getShopName(),
@@ -133,7 +137,7 @@ class PayU {
             'store-card' => 'true',
             'recurring-payment' => 'true',
             'widget-mode' => 'pay',
-            'customer-email' => $customerEmail
+            'customer-email' => $customerEmail,
         ];
 
         $attributes['sig'] = $this->generateSign($attributes);
@@ -160,6 +164,6 @@ class PayU {
 		$plainText = implode('', array_values($attributes));
 		$plainText .= \OpenPayU_Configuration::getSignatureKey();
 
-		return hash("sha512", $plainText);
+		return hash("SHA256", $plainText);
 	}
 }

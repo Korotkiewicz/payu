@@ -24,4 +24,6 @@ return [
     'continue_url' => env('PAYU_CONTINUE_URL'),
 
     'notify_url' => env('PAYU_NOTIFY_URL'),
+
+    'shop_name' => env('PAYU_SHOP_NAME'),
 ];

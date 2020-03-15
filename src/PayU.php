@@ -122,19 +122,18 @@ class PayU {
 	    return $response;
 	}
 
-	public function createWidgetAttributes($totalAmount, $customerEmail, $currency = 'PLN', $language = 'pl')
+	public function createWidgetAttributes($totalAmount, $customerEmail, $currency = 'PLN', $language = 'pl', $buttonSelector = '#pay-button')
 	{
 		return [
             'src' => 'https://secure.payu.com/front/widget/js/payu-bootstrap.js',
+            'pay-button' => $buttonSelector,
             'merchant-pos-id' => $this->getMerchantPosId(),
             'shop-name' => $this->getShopName(),
             'total-amount' => $totalAmount,
             'currency-code' => $currency,
             'customer-language' => $language,
             'store-card' => 'true',
-            'payu-brand' => 'false',
-            'success-callback' => $this->notifyUrl,
-            'widget-mode' => 'use',
+            'recurring-payment' => 'true',
             'customer-email' => $customerEmail,
             'sig' => $this->generateSign($totalAmount, $customerEmail, $currency)
         ];

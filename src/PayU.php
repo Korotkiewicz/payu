@@ -122,7 +122,17 @@ class PayU {
 	    return $response;
 	}
 
-	public function createWidgetAttributes($totalAmount, $customerEmail, $currency = 'PLN', $language = 'pl', $buttonSelector = '#pay-button')
+	/**
+	 * Create payu widget using credit cards
+	 * @param  float $totalAmount    show mutch you want to charge customer (eg 1.99)
+	 * @param  string $customerEmail  customer email
+	 * @param  string $widgetMode     pay|use - this is PayU Mode
+	 * @param  string $currency       (eg PLN)
+	 * @param  string $language       widget language
+	 * @param  string $buttonSelector after click this button it will open widget
+	 * @return array                 array to set in <script ></script>
+	 */
+	public function createWidgetAttributes($totalAmount, $customerEmail, $widgetMode = 'use', $currency = 'PLN', $language = 'pl', $buttonSelector = '#pay-button')
 	{
 		if ($currency !== 'HUF') {
 			$totalAmount *= 100;
@@ -136,7 +146,7 @@ class PayU {
             'customer-language' => $language,
             'store-card' => 'true',
             'recurring-payment' => 'true',
-            'widget-mode' => 'pay',
+            'widget-mode' => $widgetMode,
             'customer-email' => $customerEmail,
         ];
 

@@ -70,7 +70,7 @@ class PayU {
 	 * @param  string $currency    [description]
 	 * @return \OpenPayU_Order              [description]
 	 */
-	public function createOrder($desc, $orderID, $totalAmount, $products, $buyer = null, $currency = 'PLN', $recurring = null, $payMethods = null):? \OpenPayU_Result
+	public function createOrder($desc, $orderID, $totalAmount, $products, $buyer = null, $currency = 'PLN', $additionalParameters = null):? \OpenPayU_Result
 	{
 		$order = [];
 		$order['continueUrl'] = $this->continueUrl; //customer will be redirected to this page after successfull payment
@@ -97,18 +97,11 @@ class PayU {
 		    $order['buyer'] = $buyer;
 		}
 
-		if (!is_null($recurring)) {
-			$order['recurring'] = $recurring;
-
-			if ($recurring == self::RECURRING_EVERY_SECOND_PAYMENT && is_null($payMethods)) {
-				throw new \Exception('Standard recurring payment require setting payMethods.payMethod["type": "CARD_TOKEN", "value": "TOKC_1token_given_on_first_payment"]');
+		if (!is_null($additionalParameters) && is_array($additionalParameters)) {
+			foreach($additionalParameters as $key => $param) {
+				$order[$key] = $param;
 			}
 		}
-
-		if (!is_null($payMethods)) {
-			$order['payMethods'] = $payMethods;
-		}
-
 
 		$response = null;
 		try {

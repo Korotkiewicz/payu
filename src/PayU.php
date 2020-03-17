@@ -99,7 +99,11 @@ class PayU {
 
 		if (!is_null($additionalParameters) && is_array($additionalParameters)) {
 			foreach($additionalParameters as $key => $param) {
-				$order[$key] = $param;
+				if (!is_null($param)) {
+					$order[$key] = $param;
+				} else {
+					unset($order[$key]);
+				}
 			}
 		}
 

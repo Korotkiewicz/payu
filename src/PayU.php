@@ -3,6 +3,7 @@
 namespace Korotkiewicz\PayU;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Request;
 
 class PayU {
 	protected $continueUrl;
@@ -75,7 +76,7 @@ class PayU {
 		$order = [];
 		$order['continueUrl'] = $this->continueUrl; //customer will be redirected to this page after successfull payment
 	    $order['notifyUrl'] = $this->notifyUrl;
-	    $order['customerIp'] = $_SERVER['REMOTE_ADDR'];
+	    $order['customerIp'] = Request::ip() ?? Request::server('SERVER_ADDR');
 	    $order['merchantPosId'] = self::getMerchantPosId();
 	    $order['description'] = $desc;
 	    $order['currencyCode'] = $currency;
